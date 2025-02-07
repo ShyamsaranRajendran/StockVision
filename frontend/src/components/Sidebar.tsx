@@ -14,11 +14,11 @@ import {
   Settings,
   Star,
   Menu,
+  LogOut,
   X,
 } from 'lucide-react';
-
 interface SidebarProps {
-  isOpen: boolean; // Determines if the sidebar is open (from parent component)
+  isOpen: boolean; 
   onToggle: () => void; // Function to toggle the sidebar state (from parent)
 }
 
@@ -118,6 +118,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
             <div className="px-4 py-3 bg-gray-800 rounded-md">
               <p className="text-sm text-gray-400">Market Status</p>
               <p className="text-sm font-medium text-green-500">Open</p>
+              <div className=' mt-3 flex items-center space-x-2 py-3 rounded-md transition-colors text-gray-300 hover:bg-gray-800'>
+              <LogOut className='h-5 w-5'/>
+              <span>Logout</span>
+              </div>
             </div>
           </div>
         </div>

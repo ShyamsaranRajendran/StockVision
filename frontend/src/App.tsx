@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Bell, User } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import  Dashboard  from './pages/Dashboard';
 import { TradingPage } from './pages/TradingPage';
@@ -17,7 +16,7 @@ import  Orders  from './components/Orders';
 import  Watchlist  from './components/Watchlist';
 import  Notifications  from './components/Notifications';
 import  Settings  from './components/Settings';
-
+import Header from './components/Header';
 import { Outlet } from 'react-router-dom';
 function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
@@ -45,24 +44,7 @@ function DashboardLayout() {
 function App() {
   return (
     <Router>
-      {/* Header */}
-      <header className="bg-gray-800 border-b border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-end items-center py-4">
-            <div className="flex items-center space-x-4">
-              <button className="p-2 text-gray-400 hover:text-gray-300">
-                <Bell className="h-6 w-6" />
-              </button>
-              <button className="p-2 text-gray-400 hover:text-gray-300">
-                <User className="h-6 w-6" />
-              </button>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                Sign In
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+       <Header />
 
       <Routes>
         <Route path="/" element={<DashboardLayout />}>

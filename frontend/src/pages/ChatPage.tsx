@@ -25,7 +25,7 @@ export const ChatPage: React.FC = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-2rem)] flex flex-col bg-gray-900 rounded-lg overflow-hidden">
+    <div className="h-[calc(100vh-2rem)] flex flex-col bg-gray-900 rounded-lg overflow-hidden container mx-auto my-4 px-4 py-8">
       {/* Chat Header */}
       <div className="bg-gray-800 px-6 py-4 border-b border-gray-700">
         <h2 className="text-xl font-semibold text-white">Live Trading Chat</h2>

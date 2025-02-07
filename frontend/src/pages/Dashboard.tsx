@@ -18,7 +18,7 @@ import {
   } from '../data/mockData';
 function Dashboard() {
   return (
-     <>
+     <div className="container mx-auto my-4 px-4 py-8">
                 <MarketOverview indices={mockIndices} />
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                   <div className="lg:col-span-2">
@@ -51,7 +51,7 @@ function Dashboard() {
       </div>
     </div>
     
-              </>
+              </div>
   )
 }
 

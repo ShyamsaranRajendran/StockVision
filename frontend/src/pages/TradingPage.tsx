@@ -8,7 +8,27 @@ export const TradingPage: React.FC = () => {
   const [quantity, setQuantity] = useState('1');
   const [limitPrice, setLimitPrice] = useState('');
   const [stopPrice, setStopPrice] = useState('');
-
+  const [activeTimeframe, setActiveTimeframe] = useState("1D");
+  const marketData = [
+    { pair: "BTCUSDT", category: "All", name: "Bitcoin", price: "$23,495", change: "+23.4%" },
+    { pair: "AUSUDT", category: "Gaming", name: "Axie Infinity", price: "$15.95", change: "-8.9%" },
+    { pair: "ETHUSDT", category: "All", name: "Ethereum", price: "$12,950", change: "+1.5%" },
+    { pair: "SOLUSDT", category: "All", name: "Solana", price: "$15.95", change: "-4.5%" },
+    { pair: "BNBUSD", category: "Meta", name: "Binance", price: "$15.95", change: "+8.9%" },
+    { pair: "ADAUSFT", category: "Meta", name: "Cardano", price: "$15.95", change: "-12.2%" },
+    { pair: "AUSUDT", category: "Gaming", name: "Axie Infinity", price: "$15.95", change: "-9.8%" },
+    { pair: "ETHUSDT", category: "All", name: "Ethereum", price: "$12,950", change: "+1.5%" },
+  ];
+  
+  const categories = ["All", "Meta", "Gaming"];
+  
+    const [selectedCategory, setSelectedCategory] = useState("All");
+  
+    const filteredData =
+      selectedCategory === "All"
+        ? marketData
+        : marketData.filter((item) => item.category === selectedCategory);
+  
   const handleSubmit = (e: React.FormEvent, action: 'buy' | 'sell') => {
     e.preventDefault();
     console.log('Order placed:', {
@@ -22,23 +42,28 @@ export const TradingPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6  container mx-auto my-4 px-4 py-8 ">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chart Section */}
         <div className="lg:col-span-2">
           <StockChart data={mockChartData} symbol={selectedStock.symbol} />
           
-          {/* Time Frame Selector */}
           <div className="mt-4 flex space-x-2">
-            {['1m', '5m', '15m', '1h', '1D', '1W', '1M'].map((timeframe) => (
-              <button
-                key={timeframe}
-                className="px-3 py-1 text-sm rounded-md bg-gray-800 text-gray-300 hover:bg-gray-700"
-              >
-                {timeframe}
-              </button>
-            ))}
-          </div>
+  {['1m', '5m', '15m', '1h', '1D', '1W', '1M'].map((timeframe) => (
+    <button
+      key={timeframe}
+      className={`px-3 py-1 text-sm rounded-md transition-all ${
+        activeTimeframe === timeframe 
+          ? "bg-blue-600 text-white" 
+          : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+      }`}
+      onClick={() => setActiveTimeframe(timeframe)}
+    >
+      {timeframe}
+    </button>
+  ))}
+</div>
+
         </div>
 
         {/* Order Form */}
@@ -169,6 +194,66 @@ export const TradingPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <div className="p-4">
+      {/* Buttons for filtering */}
+      <div className="flex space-x-2 mb-4">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`px-4 py-2 rounded-md text-sm font-medium ${
+              selectedCategory === category
+                ? "bg-blue-600 text-white"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-700 text-gray-300">
+          <thead>
+            <tr className="bg-gray-800 text-gray-200">
+              <th className="p-3 border border-gray-700 text-left">Market</th>
+              <th className="p-3 border border-gray-700 text-left">Name</th>
+              <th className="p-3 border border-gray-700 text-right">Price</th>
+              <th className="p-3 border border-gray-700 text-right">Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.map((item, index) => (
+              <tr
+                key={index}
+                className={`border border-gray-700 ${
+                  index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
+                }`}
+              >
+                <td className="p-3 border border-gray-700">{item.pair}</td>
+                <td className="p-3 border border-gray-700">{item.name}</td>
+                <td className="p-3 border border-gray-700 text-right">
+                  {item.price}
+                </td>
+                <td
+                  className={`p-3 border border-gray-700 text-right font-semibold ${
+                    item.change.startsWith("+")
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {item.change}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
     </div>
   );
 };

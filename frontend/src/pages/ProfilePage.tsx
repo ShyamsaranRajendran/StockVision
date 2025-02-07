@@ -11,7 +11,7 @@ import {
 
 export const ProfilePage: React.FC = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6  container mx-auto my-4 px-4 py-8">
       {/* Profile Header */}
       <div className="bg-gray-900 rounded-lg p-6">
         <div className="flex items-center space-x-4">

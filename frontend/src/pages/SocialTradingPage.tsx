@@ -32,7 +32,7 @@ export const SocialTradingPage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 container mx-auto my-4 px-4 py-8">
       <div className="bg-gray-900 rounded-lg p-6">
         <h2 className="text-xl font-semibold text-white mb-4">Top Traders</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
