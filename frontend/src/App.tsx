@@ -17,7 +17,9 @@ import  Watchlist  from './components/Watchlist';
 import  Notifications  from './components/Notifications';
 import  Settings  from './components/Settings';
 import Header from './components/Header';
+import Sign from './pages/Sign';
 import { Outlet } from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
 function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
 
@@ -37,6 +39,7 @@ function DashboardLayout() {
       <div className="flex-1 p-6 lg:p-8">
         <Outlet />
       </div>
+      <ToastContainer/>
     </div>
   );
 }
@@ -64,6 +67,7 @@ function App() {
   <Route path="/notifications" element={<Notifications />} />
   <Route path="/settings" element={<Settings />} />
         </Route>
+        <Route path="/sign-in" element={<Sign/>} />
       </Routes>
     </Router>
   );
