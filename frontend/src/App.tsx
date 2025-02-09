@@ -19,6 +19,7 @@ import  Settings  from './components/Settings';
 import Header from './components/Header';
 import Sign from './pages/Sign';
 import { Outlet } from 'react-router-dom';
+import ChatBot from './pages/ChatBot';
 import {toast, ToastContainer} from 'react-toastify';
 function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
@@ -48,7 +49,6 @@ function App() {
   return (
     <Router>
        <Header />
-
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
@@ -69,6 +69,7 @@ function App() {
         </Route>
         <Route path="/sign-in" element={<Sign/>} />
       </Routes>
+      <ChatBot />
     </Router>
   );
 }

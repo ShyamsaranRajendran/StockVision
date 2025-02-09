@@ -9,13 +9,19 @@ const cors = require("cors");
 const app = express();
 const port = 5000;
 
+// Import Google Generative AI SDK
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// Initialize Gemini AI
+// const genAI = new GoogleGenerativeAI("AIzaSyCLGe_eCqmehLVBjPusXtTxtJXCqOJX2xI");
+const genAI = new GoogleGenerativeAI("AIzaSyBazYvOQVz-GbRkAfIN1AWwP1q3UwAr7tE");
 // Create HTTP server
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: { origin: "*", credentials: true },
 });
 
-// Attach io to app to avoid circular dependency
+// Attach io to app
 app.set("io", io);
 
 // Connect to MongoDB
@@ -31,7 +37,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Import Routes AFTER setting io
+// Import Routes
 const users = require("./routes/user.js");
 const products = require("./routes/products.js");
 const livechat = require("./routes/livechat.js");
@@ -39,6 +45,45 @@ const livechat = require("./routes/livechat.js");
 app.use("/auth", users);
 app.use("/products", products);
 app.use("/livechat", livechat);
+
+// ✅ Define the /gemini route
+app.post("/gemini", async (req, res) => {
+    try {
+        const { history = [], message } = req.body;
+
+        if (!message || typeof message !== "string") {
+            return res.status(400).json({ error: "Message is required and must be a string" });
+        }
+
+        // Ensure history is formatted correctly
+        const formattedHistory = history.map(entry => ({
+            role: entry.role,  // "user" or "model"
+            parts: [{ text: entry.parts.replace("**You:** ", "").replace("**Bot:** ", "") }]  
+        }));
+
+        // Initialize Gemini AI model
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const chat = model.startChat({ history: formattedHistory });
+
+        // Ensure message is sent in the correct format (send string, not object)
+        console.log("Sending request:", message);
+
+        const result = await chat.sendMessage(message);  // ✅ Send as a string
+
+        // Extract and send back response
+        const response = result.response;
+        const text = response.text();
+
+        res.json({ reply: text });
+    } catch (error) {
+        console.error("Error in /gemini:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
+
+
 
 // Socket.io Connection
 io.on("connection", (socket) => {
