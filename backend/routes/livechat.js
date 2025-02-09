@@ -3,8 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 const ChatRoom = require("../models/chatroom.model");
-const { io } = require("../server"); // Ensure io is correctly imported
-const authenticate = require("../utils/authendicate");
+const authenticate = require("../utils/authenticate");
 
 const router = express.Router();
 
@@ -34,7 +33,7 @@ router.get("/:chatRoomId", async (req, res) => {
             .limit(50)
             .populate("sender", "username avatarImage");
 
-        res.status(200).json(messages.reverse()); // Reverse for chronological order
+        res.status(200).json(messages.reverse());
     } catch (err) {
         console.error("Error fetching messages:", err);
         res.status(500).json({ error: "Server error" });
@@ -42,36 +41,36 @@ router.get("/:chatRoomId", async (req, res) => {
 });
 
 // Send a new message
-router.post("/sendMessage", authenticate, upload.single("file"), async (req, res) => {
+router.post("/sendMessage", authenticate, async (req, res) => {
     try {
         console.log("Request body:", req.body);
         console.log("Decoded user:", req.user);
 
         const { chatRoomId, text } = req.body;
-        const sender = req.user?._id; // Ensure sender is set properly
+        const sender = req.user?._id;
 
         if (!chatRoomId || !sender) {
             return res.status(400).json({ error: "Chat room ID and sender are required" });
         }
 
-        // Prepare message data
-        const newMessage = new ChatRoom({
-            chatRoomId,
-            sender,
-            text: text || null,
-            fileUrl: req.file ? `/uploads/${req.file.filename}` : null,
-            fileType: req.file ? req.file.mimetype : null,
-        });
-
-        // Save message to the database
-        await newMessage.save();
-
-        // Ensure io is available before emitting
-        if (io) {
-            io.to(chatRoomId).emit("receiveMessage", newMessage);
-        } else {
-            console.error("Socket.io instance (io) is undefined.");
+        // Get io instance from app
+        const io = req.app.get("io");
+        if (!io) {
+            console.error("❌ Socket.io instance (io) is unavailable.");
+            return res.status(500).json({ error: "Internal server error" });
         }
+
+        // Create new message
+        const newMessage = {
+            chatRoomId,
+            senderId: sender,
+            text,
+            createdAt: new Date(),
+        };
+
+        // Emit the message in real-time
+        io.to(chatRoomId).emit("receiveMessage", newMessage);
+        console.log("⚡ Message emitted to room:", chatRoomId);
 
         res.status(201).json(newMessage);
     } catch (err) {
@@ -79,5 +78,6 @@ router.post("/sendMessage", authenticate, upload.single("file"), async (req, res
         res.status(500).json({ error: "Failed to send message" });
     }
 });
+
 
 module.exports = router;

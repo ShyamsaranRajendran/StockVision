@@ -4,7 +4,7 @@ const User = require('../models/user.model.js');
 const bycrypt = require('bcryptjs');
 const JWT = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/keys.js');
-const authenticate = require('../utils/authendicate.js');
+const authenticate = require('../utils/authenticate.js');
 
 // Register route (already provided)
 router.post('/signup', async (req, res) => {
