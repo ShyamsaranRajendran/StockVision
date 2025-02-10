@@ -15,6 +15,10 @@ const Header: React.FC = () => {
     setTimeout(() => setIsLoading(false), 1000); // Simulating loading effect
     const token = localStorage.getItem('authToken');
     setIsAuthenticated(!!token);
+    if(isAuthenticated)
+    {
+      setHasNotification(false);
+    }
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);

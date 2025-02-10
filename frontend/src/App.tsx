@@ -20,7 +20,7 @@ import Header from './components/Header';
 import Sign from './pages/Sign';
 import { Outlet } from 'react-router-dom';
 import ChatBot from './pages/ChatBot';
-import {toast, ToastContainer} from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
 

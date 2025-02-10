@@ -7,7 +7,7 @@ import iconSOL from "../assets/Icon - SOL.svg";
 import iconXRP from "../assets/Icon - ETH.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const backendUrl = "http://localhost:5000";
