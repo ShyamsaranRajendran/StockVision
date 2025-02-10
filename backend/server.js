@@ -5,7 +5,6 @@ const http = require("http");
 const { Server } = require("socket.io");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
 const app = express();
 const port = 5000;
 
@@ -15,7 +14,6 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 // Initialize Gemini AI
 // const genAI = new GoogleGenerativeAI("AIzaSyCLGe_eCqmehLVBjPusXtTxtJXCqOJX2xI");
 const genAI = new GoogleGenerativeAI("AIzaSyBazYvOQVz-GbRkAfIN1AWwP1q3UwAr7tE");
-// Create HTTP server
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: { origin: "*", credentials: true },
@@ -45,6 +43,41 @@ const livechat = require("./routes/livechat.js");
 app.use("/auth", users);
 app.use("/products", products);
 app.use("/livechat", livechat);
+
+
+
+
+
+
+// Socket.io Connection
+io.on("connection", (socket) => {
+    console.log(`🔵 User connected: ${socket.id}`);
+
+    socket.on("joinRoom", (chatRoomId) => {
+        if (!chatRoomId) return;
+        socket.join(chatRoomId);
+        console.log(`📢 User joined room: ${chatRoomId}`);
+    });
+
+    socket.on("sendMessage", async (messageData) => {
+        if (!messageData.chatRoomId || !messageData.senderId || !messageData.text) {
+            console.error("❌ Invalid message data:", messageData);
+            return;
+        }
+        io.to(messageData.chatRoomId).emit("receiveMessage", messageData);
+    });
+
+    socket.on("disconnect", () => {
+        console.log(`🔴 User disconnected: ${socket.id}`);
+    });
+});
+
+// Start Server
+server.listen(port, () => {
+    console.log(`🚀 Server is running on port ${port}`);
+});
+
+
 
 // ✅ Define the /gemini route
 app.post("/gemini", async (req, res) => {
@@ -79,31 +112,4 @@ app.post("/gemini", async (req, res) => {
         console.error("Error in /gemini:", error);
         res.status(500).json({ error: "Internal server error" });
     }
-});
-
-
-
-
-
-// Socket.io Connection
-io.on("connection", (socket) => {
-    console.log(`🔵 User connected: ${socket.id}`);
-
-    socket.on("joinRoom", (chatRoomId) => {
-        socket.join(chatRoomId);
-        console.log(`📢 User joined room: ${chatRoomId}`);
-    });
-
-    socket.on("sendMessage", async (messageData) => {
-        io.to(messageData.chatRoomId).emit("receiveMessage", messageData);
-    });
-
-    socket.on("disconnect", () => {
-        console.log(`🔴 User disconnected: ${socket.id}`);
-    });
-});
-
-// Start Server
-server.listen(port, () => {
-    console.log(`🚀 Server is running on port ${port}`);
 });

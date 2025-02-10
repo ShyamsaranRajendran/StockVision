@@ -43,41 +43,50 @@ router.get("/:chatRoomId", async (req, res) => {
 // Send a new message
 router.post("/sendMessage", authenticate, async (req, res) => {
     try {
-        console.log("Request body:", req.body);
-        console.log("Decoded user:", req.user);
+        console.log("🔹 Request body:", req.body);
+        console.log("🔹 Decoded user:", req.user);
 
         const { chatRoomId, text } = req.body;
-        const sender = req.user?._id;
+        console.log(req.body);
+        const senderId = req.user?._id;
 
-        if (!chatRoomId || !sender) {
-            return res.status(400).json({ error: "Chat room ID and sender are required" });
+        if (!chatRoomId || !senderId) {
+            console.error("❌ Chat room ID and sender ID are required");
+            console.log("Chat room ID:", chatRoomId);
+            console.log("Sender ID:", senderId);
+            return res.status(400).json({ error: "Chat room ID and sender ID are required" });
+        }
+
+        if (!text || typeof text !== "string" || text.trim().length === 0) {
+            return res.status(400).json({ error: "Message text cannot be empty" });
         }
 
         // Get io instance from app
         const io = req.app.get("io");
         if (!io) {
             console.error("❌ Socket.io instance (io) is unavailable.");
-            return res.status(500).json({ error: "Internal server error" });
+            return res.status(500).json({ error: "Socket.io not initialized" });
         }
 
         // Create new message
         const newMessage = {
             chatRoomId,
-            senderId: sender,
-            text,
+            senderId,
+            text: text.trim(), // Trim message text
             createdAt: new Date(),
         };
 
         // Emit the message in real-time
         io.to(chatRoomId).emit("receiveMessage", newMessage);
-        console.log("⚡ Message emitted to room:", chatRoomId);
+        console.log(`⚡ Message emitted to room: ${chatRoomId}`, newMessage);
 
         res.status(201).json(newMessage);
     } catch (err) {
-        console.error("Error sending message:", err);
+        console.error("❌ Error sending message:", err);
         res.status(500).json({ error: "Failed to send message" });
     }
 });
+
 
 
 module.exports = router;

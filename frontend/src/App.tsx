@@ -56,16 +56,16 @@ function App() {
           <Route path="/social" element={<SocialTradingPage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-  <Route path="/trading" element={<Trading />} />
-  <Route path="/portfolio" element={<PortfolioHistory />} />
-  <Route path="/social" element={<SocialTrading />} />
-  <Route path="/chat" element={<LiveChat />} />
-  <Route path="/market-analysis" element={<MarketAnalysis />} />
-  <Route path="/news" element={<News />} />
-  <Route path="/orders" element={<Orders />} />
-  <Route path="/watchlist" element={<Watchlist />} />
-  <Route path="/notifications" element={<Notifications />} />
-  <Route path="/settings" element={<Settings />} />
+          <Route path="/trading" element={<Trading />} />
+          <Route path="/portfolio" element={<PortfolioHistory />} />
+          <Route path="/social" element={<SocialTrading />} />
+          <Route path="/chat" element={<LiveChat />} />
+          <Route path="/market-analysis" element={<MarketAnalysis />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
         <Route path="/sign-in" element={<Sign/>} />
       </Routes>
