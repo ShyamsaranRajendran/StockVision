@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Send, Smile, Paperclip, X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Send, Smile, Paperclip } from "lucide-react";
 import axios from "axios";
 import io from "socket.io-client";
 import EmojiPicker from "emoji-picker-react";

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { TrendingUp, TrendingDown, Star } from 'lucide-react';
 import { Stock } from '../types';
 

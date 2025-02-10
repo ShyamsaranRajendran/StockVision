@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import  { useState, useRef, useLayoutEffect } from "react";
 import { MarketOverview } from "../components/MarketOverview";
 import { StockList } from "../components/StockList";
 import { NewsSection } from "../components/NewsSection";

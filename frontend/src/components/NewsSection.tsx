@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { NewsItem } from '../types';
 import { Newspaper } from 'lucide-react';
 

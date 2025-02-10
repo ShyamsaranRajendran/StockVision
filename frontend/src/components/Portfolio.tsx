@@ -1,5 +1,5 @@
-import React from "react";
-import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
+
+import { DollarSign } from "lucide-react";
 import { Portfolio } from "../types";
 
 interface Props {

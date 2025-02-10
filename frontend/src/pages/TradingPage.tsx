@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { StockChart } from '../components/StockChart';
 import { mockChartData, mockStocks } from '../data/mockData';
 

@@ -1,12 +1,8 @@
-import React from 'react';
 import {
   User,
-  Mail,
-  Phone,
   Shield,
   CreditCard,
   Bell,
-  Settings,
 } from 'lucide-react';
 
 export const ProfilePage: React.FC = () => {

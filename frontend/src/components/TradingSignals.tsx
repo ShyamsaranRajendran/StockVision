@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { TradingSignal } from '../types';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { User, ThumbsUp, MessageCircle, Copy } from 'lucide-react';
 
 export const SocialTradingPage: React.FC = () => {

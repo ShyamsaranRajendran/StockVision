@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { Bell, User } from "lucide-react";
+import  { useState, useEffect, useRef, useLayoutEffect } from "react";
+
 import iconADA from "../assets/Icon - ADA.svg";
 import iconBTC from "../assets/Icon - BTC.svg";
 import iconETH from "../assets/Icon - ETH.svg";
