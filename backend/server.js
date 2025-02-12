@@ -22,6 +22,11 @@ const io = new Server(server, {
 // Attach io to app
 app.set("io", io);
 
+app.use((req, res, next) => {
+    req.io = io; // Attach Socket.io to `req`
+    next();
+  });
+  
 // Connect to MongoDB
 mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("✅ Successfully connected to the database"))
@@ -34,43 +39,30 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+io.on("connection", (socket) => {
+    console.log("A user connected:", socket.id);
+  
+    socket.on("joinRoom", (chatRoomId) => {
+      socket.join(chatRoomId);
+      console.log(`User joined chatRoomId: ${chatRoomId}`);
+    });
+  
+    socket.on("disconnect", () => {
+      console.log("User disconnected");
+    });
+  });
 // Import Routes
 const users = require("./routes/user.js");
 const products = require("./routes/products.js");
 const livechat = require("./routes/livechat.js");
+const stockRoutes = require("./routes/stocks.data.js");
 
 app.use("/auth", users);
 app.use("/products", products);
 app.use("/livechat", livechat);
+app.use("/stocks", stockRoutes);
 
 
-
-
-
-
-// Socket.io Connection
-io.on("connection", (socket) => {
-    console.log(`🔵 User connected: ${socket.id}`);
-
-    socket.on("joinRoom", (chatRoomId) => {
-        if (!chatRoomId) return;
-        socket.join(chatRoomId);
-        console.log(`📢 User joined room: ${chatRoomId}`);
-    });
-
-    socket.on("sendMessage", async (messageData) => {
-        if (!messageData.chatRoomId || !messageData.senderId || !messageData.text) {
-            console.error("❌ Invalid message data:", messageData);
-            return;
-        }
-        io.to(messageData.chatRoomId).emit("receiveMessage", messageData);
-    });
-
-    socket.on("disconnect", () => {
-        console.log(`🔴 User disconnected: ${socket.id}`);
-    });
-});
 
 // Start Server
 server.listen(port, () => {

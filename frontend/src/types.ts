@@ -15,6 +15,43 @@ export interface Stock {
   };
 }
 
+export interface TimeSeriesData {
+  "1. open": string;
+  "2. high": string;
+  "3. low": string;
+  "4. close": string;
+  "5. volume": string;
+}
+
+export interface StockData {
+  timestamp: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
+
+export interface ProcessedData {
+  candlestickData: StockData[];
+  volumeData: { timestamp: string; volume: number }[];
+  priceMovement: {
+    overallChange: number;
+    percentageChange: number;
+    highestPrice: number;
+    lowestPrice: number;
+  };
+  volumeAnalysis: {
+    averageVolume: number;
+    highestVolume: number;
+    lowestVolume: number;
+  };
+  technicalIndicators: {
+    sma20: number;
+    rsi: number;
+    volatility: number;
+  };
+}
 export interface StockChart {
   timestamp: number;
   open: number;

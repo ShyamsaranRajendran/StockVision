@@ -1,3 +1,7 @@
+import { div } from 'framer-motion/client';
+import { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+
 import {
   User,
   Shield,
@@ -6,20 +10,55 @@ import {
 } from 'lucide-react';
 
 export const ProfilePage: React.FC = () => {
+  const [profilePic, setProfilePic] = useState<string | null>(null);
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    setProfilePic(URL.createObjectURL(file));
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: { "image/*": [] },
+    multiple: false,
+  });
+
+
+ const  name="Shyam Kumar"
+ const     pic="https://via.placeholder.com/150"
+ const     about="Full Stack Developer | React & Node.js Enthusiast"
+  const    date="August 12, 2024"
   return (
-    <div className="space-y-6  container mx-auto my-4 px-4 py-8">
+    <div className='grid grid-cols-4 gap-4 items-start py-8'>
+       <div className="col-span-3 space-y-6 py-8">
       {/* Profile Header */}
-      <div className="bg-gray-900 rounded-lg p-6">
-        <div className="flex items-center space-x-4">
-          <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center">
-            <User className="w-10 h-10 text-white" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-white">John Doe</h2>
-            <p className="text-gray-400">Premium Member</p>
-          </div>
-        </div>
-      </div>
+      <div className="bg-gray-900 rounded-lg p-6 relative">
+  <button className="absolute top-4 right-4 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md text-sm">
+    Edit
+  </button>
+  <div className="flex items-center space-x-4">
+    <div
+      {...getRootProps()}
+      className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center cursor-pointer border-2 border-dashed border-gray-500 hover:border-indigo-400"
+    >
+      <input {...getInputProps()} />
+      {profilePic ? (
+        <img
+          src={profilePic}
+          alt="Profile"
+          className="w-full h-full object-cover rounded-full"
+        />
+      ) : (
+        <User className="w-10 h-10 text-white" />
+      )}
+    </div>
+    <div>
+      <h2 className="text-2xl font-bold text-white">John Doe</h2>
+      <p className="text-gray-400">Premium Member</p>
+    </div>
+  </div>
+</div>
+
 
       {/* KYC Status */}
       <div className="bg-gray-900 rounded-lg p-6">
@@ -149,6 +188,24 @@ export const ProfilePage: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
+    <div className='col-span-1 flex items-center justify-start'>
+    <div className="flex items-center py-8">
+      <div className="bg-white shadow-lg rounded-2xl p-6 w-80 text-center">
+        <img
+          src={pic}
+          alt={name}
+          className="w-24 h-24 mx-auto rounded-full border-4 border-blue-500 shadow-md"
+        />
+        <h2 className="mt-4 text-xl font-semibold text-gray-800">{name}</h2>
+        <p className="text-sm text-gray-500">{about}</p>
+        <p className="mt-2 text-xs text-gray-400">Joined: {date}</p>
+      </div>
+    </div>
+
+
+    </div>
+
     </div>
   );
 };

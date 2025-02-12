@@ -28,7 +28,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(isOpen);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
-
   const menuItems = [
     { path: '/', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/trading', label: 'Trading', icon: LineChart },
@@ -42,6 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
     { path: '/notifications', label: 'Notifications', icon: Bell },
     { path: '/profile', label: 'Profile', icon: UserCircle },
     { path: '/settings', label: 'Settings', icon: Settings },
+    { path: '/logout', label: 'LogOut', icon: LogOut },
   ];
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
           </nav>
 
           {/* Market Status with Skeleton Loader */}
-          <div className="p-4">
+          {/* <div className="p-4">
             {isLoading ? (
               <div className="w-full h-16 bg-gray-700 animate-pulse rounded-md"></div>
             ) : (
@@ -141,7 +141,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </>
