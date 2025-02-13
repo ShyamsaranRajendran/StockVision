@@ -14,36 +14,42 @@ const fetchStockData = async (symbol) => {
 };
 
 // GET stock data
+router.get("/data/AAPL", async (req, res) => {
+  const data= await Stock.find({symbol: "AAPL"});
+  console.log(data[0].data);
+  res.json(data[0].data);
+});
+
 router.get("/:symbol", async (req, res) => {
-    console.log("GET /stocks/:symbol");
+  console.log("GET /stocks/:symbol");
   const { symbol } = req.params;
 
   try {
-    let stock = await Stock.findOne({ symbol });
+      let stock = await Stock.findOne({ symbol: symbol }); // Use findOne instead of find
 
-    // If stock data exists and is fresh (less than 5 minutes old), return it
-    if (stock && (Date.now() - stock.lastUpdated.getTime()) < 5 * 60 * 1000) {
-      return res.json(stock.data);
-    }
+      // Check if stock exists before accessing its properties
+      if (stock && stock.lastUpdated && (Date.now() - new Date(stock.lastUpdated).getTime()) < 5 * 60 * 1000) {
+          return res.json(stock.data);
+      }
 
-    // Otherwise, fetch new data
-    const stockData = await fetchStockData(symbol);
+      // Fetch new stock data if not found or outdated
+      const stockData = await fetchStockData(symbol);
 
-    // Save/update in DB
-    if (stock) {
-      stock.data = stockData;
-      stock.lastUpdated = Date.now();
-      await stock.save();
-    } else {
-      stock = new Stock({ symbol, data: stockData });
-      await stock.save();
-    }
+      if (stock) {
+          stock.data = stockData;
+          stock.lastUpdated = new Date(); // Ensure lastUpdated is a Date object
+          await stock.save();
+      } else {
+          stock = new Stock({ symbol, data: stockData, lastUpdated: new Date() }); // Include lastUpdated
+          await stock.save();
+      }
 
-    res.json(stockData);
+      res.json(stockData);
   } catch (error) {
-    console.error("Error fetching stock data:", error);
-    res.status(500).json({ error: "Failed to fetch stock data" });
+      console.error("Error fetching stock data:", error);
+      res.status(500).json({ error: "Failed to fetch stock data" });
   }
 });
+
 
 module.exports = router;

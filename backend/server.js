@@ -56,11 +56,12 @@ const users = require("./routes/user.js");
 const products = require("./routes/products.js");
 const livechat = require("./routes/livechat.js");
 const stockRoutes = require("./routes/stocks.data.js");
-
+const news = require("./routes/news.js");
 app.use("/auth", users);
 app.use("/products", products);
 app.use("/livechat", livechat);
 app.use("/stocks", stockRoutes);
+app.use("/news", news);
 
 
 
