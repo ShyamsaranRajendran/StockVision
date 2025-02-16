@@ -56,7 +56,7 @@ export const NotificationsPage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 py-20">
       {/* Notifications Header */}
       <div className="bg-gray-900 rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">

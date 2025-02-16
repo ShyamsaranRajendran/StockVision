@@ -1,95 +1,227 @@
-import { div } from 'framer-motion/client';
-import { useState, useCallback } from "react";
-import { useDropzone } from "react-dropzone";
-
+import React from 'react';
 import {
   User,
+  Mail,
+  Phone,
   Shield,
   CreditCard,
   Bell,
+  Award,
+  BookOpen,
+  TrendingUp,
+  Clock,
+  Star,
+  Briefcase,
+  MapPin,
+  Calendar,
+  FileText,
+  Globe,
+  GraduationCap
 } from 'lucide-react';
 
 export const ProfilePage: React.FC = () => {
-  const [profilePic, setProfilePic] = useState<string | null>(null);
+  const achievements = [
+    {
+      title: 'Trading Pro',
+      description: 'Completed 100+ successful trades',
+      icon: TrendingUp,
+      date: '2024-02-15',
+    },
+    {
+      title: 'Market Master',
+      description: 'Finished all beginner courses',
+      icon: GraduationCap,
+      date: '2024-01-20',
+    },
+    {
+      title: 'Analysis Expert',
+      description: 'Achieved 90% accuracy in technical analysis',
+      icon: Star,
+      date: '2024-03-01',
+    },
+  ];
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    setProfilePic(URL.createObjectURL(file));
-  }, []);
+  const certifications = [
+    {
+      name: 'Technical Analysis Fundamentals',
+      issuer: 'StockVision Academy',
+      date: '2024-02-01',
+      credential: 'TA-2024-001',
+    },
+    {
+      name: 'Options Trading Specialist',
+      issuer: 'Global Trading Institute',
+      date: '2024-01-15',
+      credential: 'OTS-2024-052',
+    },
+  ];
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: { "image/*": [] },
-    multiple: false,
-  });
+  const tradingStats = {
+    totalTrades: 156,
+    successRate: 72,
+    avgReturn: 15.8,
+    bestTrade: 45.2,
+    tradingDays: 89,
+  };
 
-
- const  name="Shyam Kumar"
- const     pic="https://via.placeholder.com/150"
- const     about="Full Stack Developer | React & Node.js Enthusiast"
-  const    date="August 12, 2024"
   return (
-    <div className='grid grid-cols-4 gap-4 items-start py-8'>
-       <div className="col-span-3 space-y-6 py-8">
+    <div className="space-y-6">
       {/* Profile Header */}
-      <div className="bg-gray-900 rounded-lg p-6 relative">
-  <button className="absolute top-4 right-4 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md text-sm">
-    Edit
-  </button>
-  <div className="flex items-center space-x-4">
-    <div
-      {...getRootProps()}
-      className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center cursor-pointer border-2 border-dashed border-gray-500 hover:border-indigo-400"
-    >
-      <input {...getInputProps()} />
-      {profilePic ? (
-        <img
-          src={profilePic}
-          alt="Profile"
-          className="w-full h-full object-cover rounded-full"
-        />
-      ) : (
-        <User className="w-10 h-10 text-white" />
-      )}
-    </div>
-    <div>
-      <h2 className="text-2xl font-bold text-white">John Doe</h2>
-      <p className="text-gray-400">Premium Member</p>
-    </div>
-  </div>
-</div>
-
-
-      {/* KYC Status */}
       <div className="bg-gray-900 rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-white mb-4">KYC Status</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-gray-400">Identity Verification</span>
-              <span className="text-green-500">Verified</span>
-            </div>
+        <div className="flex items-center space-x-6">
+          <div className="w-24 h-24 bg-indigo-600 rounded-full flex items-center justify-center">
+            <User className="w-12 h-12 text-white" />
           </div>
-          <div className="bg-gray-800 p-4 rounded-lg">
+          <div className="flex-1">
             <div className="flex items-center justify-between">
-              <span className="text-gray-400">Address Proof</span>
-              <span className="text-green-500">Verified</span>
+              <div>
+                <h2 className="text-2xl font-bold text-white">John Doe</h2>
+                <p className="text-indigo-400">Premium Member</p>
+              </div>
+              <button className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                Edit Profile
+              </button>
             </div>
-          </div>
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-gray-400">Bank Account</span>
-              <span className="text-yellow-500">Pending</span>
+            <div className="mt-4 flex items-center space-x-4">
+              <div className="flex items-center text-gray-400">
+                <MapPin className="w-4 h-4 mr-1" />
+                <span>New York, USA</span>
+              </div>
+              <div className="flex items-center text-gray-400">
+                <Calendar className="w-4 h-4 mr-1" />
+                <span>Member since Jan 2024</span>
+              </div>
+              <div className="flex items-center text-gray-400">
+                <Globe className="w-4 h-4 mr-1" />
+                <span>English, Spanish</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Personal Information */}
+      {/* Trading Statistics */}
       <div className="bg-gray-900 rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-white mb-4">
-          Personal Information
-        </h3>
+        <h3 className="text-xl font-semibold text-white mb-4">Trading Statistics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <p className="text-gray-400 text-sm">Total Trades</p>
+            <p className="text-2xl font-bold text-white">{tradingStats.totalTrades}</p>
+          </div>
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <p className="text-gray-400 text-sm">Success Rate</p>
+            <p className="text-2xl font-bold text-green-500">{tradingStats.successRate}%</p>
+          </div>
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <p className="text-gray-400 text-sm">Avg. Return</p>
+            <p className="text-2xl font-bold text-indigo-500">+{tradingStats.avgReturn}%</p>
+          </div>
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <p className="text-gray-400 text-sm">Best Trade</p>
+            <p className="text-2xl font-bold text-green-500">+{tradingStats.bestTrade}%</p>
+          </div>
+          <div className="bg-gray-800 p-4 rounded-lg">
+            <p className="text-gray-400 text-sm">Trading Days</p>
+            <p className="text-2xl font-bold text-white">{tradingStats.tradingDays}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Learning Progress & Certifications */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Learning Progress */}
+        <div className="bg-gray-900 rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold text-white">Learning Progress</h3>
+            <GraduationCap className="w-6 h-6 text-indigo-500" />
+          </div>
+          <div className="space-y-4">
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-white">Technical Analysis</span>
+                <span className="text-indigo-400">85%</span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="bg-indigo-600 h-2 rounded-full" style={{ width: '85%' }} />
+              </div>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-white">Fundamental Analysis</span>
+                <span className="text-indigo-400">70%</span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="bg-indigo-600 h-2 rounded-full" style={{ width: '70%' }} />
+              </div>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-white">Risk Management</span>
+                <span className="text-indigo-400">90%</span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="bg-indigo-600 h-2 rounded-full" style={{ width: '90%' }} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Certifications */}
+        <div className="bg-gray-900 rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold text-white">Certifications</h3>
+            <Award className="w-6 h-6 text-yellow-500" />
+          </div>
+          <div className="space-y-4">
+            {certifications.map((cert, index) => (
+              <div key={index} className="bg-gray-800 p-4 rounded-lg">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="text-white font-medium">{cert.name}</h4>
+                    <p className="text-gray-400 text-sm">{cert.issuer}</p>
+                    <p className="text-gray-400 text-sm mt-1">
+                      Issued: {new Date(cert.date).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <button className="text-indigo-400 hover:text-indigo-300 text-sm">
+                    View Certificate
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Achievements */}
+      <div className="bg-gray-900 rounded-lg p-6">
+        <h3 className="text-xl font-semibold text-white mb-4">Achievements</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {achievements.map((achievement, index) => {
+            const Icon = achievement.icon;
+            return (
+              <div key={index} className="bg-gray-800 p-4 rounded-lg">
+                <div className="flex items-start space-x-3">
+                  <div className="p-2 bg-indigo-600/20 rounded-lg">
+                    <Icon className="w-6 h-6 text-indigo-500" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-medium">{achievement.title}</h4>
+                    <p className="text-gray-400 text-sm mt-1">{achievement.description}</p>
+                    <p className="text-gray-500 text-sm mt-2">
+                      {new Date(achievement.date).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Account Information */}
+      <div className="bg-gray-900 rounded-lg p-6">
+        <h3 className="text-xl font-semibold text-white mb-4">Account Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">
@@ -137,75 +269,6 @@ export const ProfilePage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Security Settings */}
-      <div className="bg-gray-900 rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-white mb-4">
-          Security Settings
-        </h3>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <Shield className="w-6 h-6 text-indigo-500" />
-              <div>
-                <p className="text-white">Two-Factor Authentication</p>
-                <p className="text-sm text-gray-400">
-                  Add an extra layer of security
-                </p>
-              </div>
-            </div>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-              Enable
-            </button>
-          </div>
-          <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <CreditCard className="w-6 h-6 text-indigo-500" />
-              <div>
-                <p className="text-white">Payment Methods</p>
-                <p className="text-sm text-gray-400">
-                  Manage your payment options
-                </p>
-              </div>
-            </div>
-            <button className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">
-              Manage
-            </button>
-          </div>
-          <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-            <div className="flex items-center space-x-3">
-              <Bell className="w-6 h-6 text-indigo-500" />
-              <div>
-                <p className="text-white">Notifications</p>
-                <p className="text-sm text-gray-400">
-                  Configure alert preferences
-                </p>
-              </div>
-            </div>
-            <button className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">
-              Settings
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className='col-span-1 flex items-center justify-start'>
-    <div className="flex items-center py-8">
-      <div className="bg-white shadow-lg rounded-2xl p-6 w-80 text-center">
-        <img
-          src={pic}
-          alt={name}
-          className="w-24 h-24 mx-auto rounded-full border-4 border-blue-500 shadow-md"
-        />
-        <h2 className="mt-4 text-xl font-semibold text-gray-800">{name}</h2>
-        <p className="text-sm text-gray-500">{about}</p>
-        <p className="mt-2 text-xs text-gray-400">Joined: {date}</p>
-      </div>
-    </div>
-
-
-    </div>
-
     </div>
   );
 };
