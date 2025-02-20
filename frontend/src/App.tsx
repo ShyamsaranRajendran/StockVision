@@ -67,8 +67,7 @@ function App() {
           <Route path="/market-analysis" element={<MarketAnalysisPage/>} />
           <Route path="/learning" element={<LearningPage />}/> 
           <Route path="/learning/courses" element={<Course />} />
-          <Route path="/learning/course/:id" element={<CourseDetails />} />
-
+          <Route path="/learning/courses/:courseId" element={<CourseDetails />} />
           <Route path="/news" element={<NewsResearchPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path ="/watchlist" element={<WatchlistPage/>}/>

@@ -19,7 +19,7 @@ const CourseCard = ({ course }: { course: Course }) => {
   const navigate = useNavigate();
 
   const handleStartCourse = () => {
-    navigate(`/learning/course/${course._id}`);
+    navigate(`/learning/courses/${course._id}`);
   };
 
   // Assign icons dynamically based on course title

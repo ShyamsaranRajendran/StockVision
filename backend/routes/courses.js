@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Error fetching courses' });
     }
 });
-
+// https://youtu.be/slBxM4J3BEA?si=vM64j7G0gd64PscU
 // Route to get course by ID
 router.get('/find/:id', async (req, res) => {
     try {
